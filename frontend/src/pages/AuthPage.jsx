@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { Link, useNavigate } from 'react-router-dom';
 
 const AuthPage = ({ onLogin, isRegister }) => {
@@ -14,7 +14,7 @@ const AuthPage = ({ onLogin, isRegister }) => {
     setLoading(true);
     try {
       const endpoint = isRegister ? '/auth/register' : '/auth/login';
-      const res = await axios.post(`http://localhost:5000${endpoint}`, formData);
+      const res = await api.post(endpoint, formData);
       onLogin(res.data.token, res.data.user);
       navigate('/dashboard');
     } catch (err) {

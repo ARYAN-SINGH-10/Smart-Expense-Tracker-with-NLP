@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { toPng } from 'html-to-image';
 import ExpenseForm from '../components/ExpenseForm';
 import ExpenseList from '../components/ExpenseList';
@@ -26,7 +26,7 @@ const BudgetCard = ({ token, thisMonthSpent, onBudgetChange }) => {
 
   const fetchBudget = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/budget', {
+      const res = await api.get('/budget', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setBudget(res.data.amount);
@@ -44,7 +44,7 @@ const BudgetCard = ({ token, thisMonthSpent, onBudgetChange }) => {
     setSaving(true);
     setError('');
     try {
-      const res = await axios.post('http://localhost:5000/budget', { amount: val }, {
+      const res = await api.post('/budget', { amount: val }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setBudget(res.data.amount);
@@ -227,7 +227,7 @@ const Dashboard = ({ token }) => {
 
   const fetchExpenses = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/expenses', {
+      const res = await api.get('/expenses', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setExpenses(res.data);
@@ -249,7 +249,7 @@ const Dashboard = ({ token }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/expenses/${id}`, {
+      await api.delete(`/expenses/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setExpenses(prev => prev.filter(e => e.id !== id));

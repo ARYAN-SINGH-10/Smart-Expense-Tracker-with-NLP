@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 const CATEGORIES = ['Food', 'Coffee', 'Tea', 'Travel', 'Cab', 'Shopping', 'Rent', 'Bills', 'Entertainment', 'Health', 'Others'];
 const CATEGORY_ICONS = { Food: '🍔', Coffee: '☕', Tea: '🍵', Travel: '✈️', Cab: '🚕', Shopping: '🛍️', Rent: '🏠', Bills: '💡', Entertainment: '🎬', Health: '🏥', Others: '📦' };
@@ -55,7 +55,7 @@ const ExpenseForm = ({ token, onExpenseAdded, budget }) => {
     setLoading(true);
     setError('');
     try {
-      await axios.post('http://localhost:5000/expenses/nlp', { text: nlpText }, {
+      await api.post('/expenses/nlp', { text: nlpText }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setNlpText('');
@@ -73,7 +73,7 @@ const ExpenseForm = ({ token, onExpenseAdded, budget }) => {
     setLoading(true);
     setError('');
     try {
-      await axios.post('http://localhost:5000/expenses/manual', manual, {
+      await api.post('/expenses/manual', manual, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setManual({ amount: '', category: 'Food', description: '', date: new Date().toISOString().split('T')[0] });
